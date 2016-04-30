@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">BeachElecticCompany</string>
+    <string name="action_settings">Settings</string>
+    <string name="check_worker">Check Worker</string>
+    <string name="assign_worker">Assign Worker</string>
+    <string name="submit_hours">Submit Hours</string>
+    <string name="fill_out_work">Fill out work</string>
+    <string name="check_assigned_work">Check assigned work</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="first_name">First Name</string>
+    <string name="foreman_code">Foreman code</string>
+    <string name="register">Register</string>
+    <string name="send_hours">Send Hours</string>
+    <string name="check_work">Check Work</string>
+    <string name="check_workers">Check Workers</string>
+    <string name="lastName">Last Name</string>
+    <string name="number_of_hours">Number of hours</string>
+    <string name="your_job_type">Your Job Type</string>
+</resources>
