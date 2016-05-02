@@ -1,3 +1,6 @@
+//author Judah Parham
+//Arturo Martinez
+//Giovana Mejia
 <?php
 
 	include("connect.php");
