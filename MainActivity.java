@@ -11,9 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
-    EditText emailEt, passwordEt, firstNameEt, lastNameEt, foremanCodeEt;
+    EditText passwordEt, firstNameEt, lastNameEt, foremanCodeEt;
+    EditText emailEt;
     Button loginBt, registerBt;
-    String result;
+    static String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void OnLogin(View view) {
-        String email = emailEt.getText().toString();
+        email = emailEt.getText().toString();
         String password = passwordEt.getText().toString();
         String type = "login";
         backgroundWorker backgroundWorker = new backgroundWorker(this);
@@ -52,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void OnRegister(View view) {
         startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+    }
+
+    public static String getEmailAddress()
+    {
+        return email;
     }
 
 }

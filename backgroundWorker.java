@@ -1,6 +1,5 @@
 package com.example.supremelordjudah.beachelecticcompany;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +22,7 @@ import java.net.URLEncoder;
  */
 public class backgroundWorker extends AsyncTask<String, Void, String> {
     Context context;
-    private Activity activity;
+//    private Activity activity;
     AlertDialog alertDialog;
     private String actionToPerform;
     String type;
@@ -40,6 +39,7 @@ public class backgroundWorker extends AsyncTask<String, Void, String> {
      * This method can call {@link #publishProgress} to publish updates
      * on the UI thread.
      *
+     *
      * @param params The parameters of the task.
      * @return A result, defined by the subclass of this task.
      * @see #onPreExecute()
@@ -49,10 +49,10 @@ public class backgroundWorker extends AsyncTask<String, Void, String> {
     @Override
     public String doInBackground(String... params) {
         type = params[0];
-        String register_url = "http://www.cs.loyola.edu/~gmejia/Project2/insert.php";
-        String check_login_url = "http://www.cs.loyola.edu/~gmejia/Project2/checkUserLogin.php";
-        String submit_hours_url = "http://www.cs.loyola.edu/~gmejia/Project2/submitHours.php";
-        String send_Jobs = "http://www.cs.loyola.edu/~gmejia/Project2/sendJobs.php";
+        String register_url = "http://www.cs.loyola.edu/~gmejia/Project2/insert.php";//works
+        String check_login_url = "http://www.cs.loyola.edu/~gmejia/Project2/checkUserLogin.php";//works
+        String submit_hours_url = "http://www.cs.loyola.edu/~gmejia/Project2/submitHoursEmail.php";//what
+        String send_Jobs = "http://www.cs.loyola.edu/~gmejia/Project2/sendJobs.php";//not there yet
         String populateWorkers = "http://www.cs.loyola.edu/~gmejia/Project2/fillInWorker.php";
         String populateJobs = "http://www.cs.loyola.edu/~gmejia/Project2/fillInJobType.php";
 
@@ -126,6 +126,7 @@ public class backgroundWorker extends AsyncTask<String, Void, String> {
                 BufferedReader bufferedReader = new BufferedReader((new InputStreamReader(inputStream, "iso-8859-1")));
                 String result = "";
                 String line = "";
+                //System.out.println(check_login_url+post_data);
                 while((line = bufferedReader.readLine()) !=null)
                 {
                     result += line;
@@ -134,8 +135,6 @@ public class backgroundWorker extends AsyncTask<String, Void, String> {
                 inputStream.close();
                 httpURLConnection.disconnect();
                 setActionToPerform(result);
-                System.out.println("AMIRITE " + result);
-                System.out.println("AMIRITE " + fetchStatus());
                 return result;
             }
 
@@ -151,9 +150,9 @@ public class backgroundWorker extends AsyncTask<String, Void, String> {
         else if (type.equals("SubmitHours"))
         {
             try {
-
-                String hoursWorked = params[1];
-
+                String userEmail = params[1];
+                String hoursWorked = params[2];
+                String jobType = params[3];
                 URL url = new URL(submit_hours_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -161,9 +160,53 @@ public class backgroundWorker extends AsyncTask<String, Void, String> {
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                //TODO: FIX ME
-                String post_data = URLEncoder.encode("plumbingHours", "UTF-8")+"="+URLEncoder.encode(hoursWorked, "UTF-8")+"&"
-                        +URLEncoder.encode("plumbingHours", "UTF-8")+"="+URLEncoder.encode(hoursWorked, "UTF-8");
+
+                String post_data = URLEncoder.encode("jobHours", "UTF-8")+"="+URLEncoder.encode(hoursWorked, "UTF-8")+"&"
+                        +URLEncoder.encode("jobType", "UTF-8")+"="+URLEncoder.encode(jobType, "UTF-8")+"&"
+                        +URLEncoder.encode("userEmail", "UTF-8")+"="+URLEncoder.encode(userEmail, "UTF-8");
+                System.out.println(submit_hours_url+post_data);
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader((new InputStreamReader(inputStream, "iso-8859-1")));
+                String result = "";
+                String line = "";
+                while((line = bufferedReader.readLine()) !=null)
+                {
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                setActionToPerform(result);
+                System.out.println(result);
+                return result;
+            }
+
+
+            catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        else if (type.equals("getJobType"))
+        {
+            try {
+                String userEmail = params[1];
+                URL url = new URL(populateJobs);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("GET");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+
+                String post_data = URLEncoder.encode("userEmail", "UTF-8")+"="+URLEncoder.encode(userEmail, "UTF-8");
 
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
@@ -180,6 +223,7 @@ public class backgroundWorker extends AsyncTask<String, Void, String> {
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
+                setActionToPerform(result);
                 return result;
             }
 
@@ -191,22 +235,19 @@ public class backgroundWorker extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
             }
         }
-
-        else if (type.equals("getJobType"))
+        else if (type.equals("getJobList"))
         {
             try {
 
                 URL url = new URL(populateJobs);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setRequestMethod("GET");
                 httpURLConnection.setDoOutput(true);
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                //TODO: FIX ME
-                //String post_data = URLEncoder.encode("plumbingHours", "UTF-8")+"="+URLEncoder.encode(hoursWorked, "UTF-8")+"&"
-                 //       +URLEncoder.encode("plumbingHours", "UTF-8")+"="+URLEncoder.encode(hoursWorked, "UTF-8");
-
+                //String post_data = URLEncoder.encode("Email", "UTF-8")+"="+URLEncoder.encode(email, "UTF-8")+"&"
+                //        +URLEncoder.encode("Password", "UTF-8")+"="+URLEncoder.encode(password, "UTF-8");
                 //bufferedWriter.write(post_data);
                 bufferedWriter.flush();
                 bufferedWriter.close();
@@ -225,8 +266,6 @@ public class backgroundWorker extends AsyncTask<String, Void, String> {
                 setActionToPerform(result);
                 return result;
             }
-
-
             catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -245,16 +284,27 @@ public class backgroundWorker extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        System.out.println("Le current job is " +result);
-
         if(type.equals("login")) {
             alertDialog.setMessage(result);
             alertDialog.show();
+
             if (result.equals("you are a worker")) {
                 context.startActivity(new Intent(context, WorkerActivity.class));
-            } else if (result.equals("you are a foreman")) {
+            }
+            else if (result.equals("you are a foreman")) {
                 context.startActivity(new Intent(context, ForemanActivity.class));
             }
+        }
+
+        else if(type.equals("SubmitHours"))
+        {
+            alertDialog.setTitle("Submit Hours");
+            if(result.equals("Successfully addedJob deletedJob removed"))
+            {
+                result = "You have submitted your hours successfully";
+            }
+            alertDialog.setMessage(result);
+            alertDialog.show();
         }
 
     }
