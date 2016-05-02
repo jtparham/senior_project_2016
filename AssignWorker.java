@@ -1,3 +1,7 @@
+/**
+ * @author Giovana Mejia
+ * 
+ */
 package com.example.supremelordjudah.beachelecticcompany;
 
 import android.os.Bundle;
