@@ -1,3 +1,7 @@
+/**
+ * @author Giovana Mejia
+ * @author Judah Parham
+ */
 package com.example.supremelordjudah.beachelecticcompany;
 
 import android.content.Intent;
