@@ -1,3 +1,7 @@
+/**
+ * @author Giovana Mejia
+ * @author Judah Parham
+ */
 package com.example.supremelordjudah.beachelecticcompany;
 
 import android.app.AlertDialog;
@@ -16,12 +20,6 @@ public class FillHours extends AppCompatActivity {
         setContentView(R.layout.activity_fill_hours);
         hoursWorkedEt = (EditText) findViewById(R.id.hoursWorkd);
         jobTypeEt = (EditText) findViewById(R.id.jobType);
-
-        /*backgroundWorker b = new backgroundWorker(this);
-        b.execute("getJobType");
-        String job = b.fetchStatus();
-        System.out.println("The current job is " +job);
-        jobTypeEt.setText(job);*/
     }
 
 
