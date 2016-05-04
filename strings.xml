@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BeachElecticCompany</string>
+    <string name="app_name">Beach Electric Company</string>
     <string name="action_settings">Settings</string>
     <string name="check_worker">Check Worker</string>
     <string name="assign_worker">Assign Worker</string>
