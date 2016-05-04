@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/emailCorrect"
+        android:hint="Email"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/passwordCorrect"
+        android:layout_alignStart="@+id/passwordCorrect"
+        android:layout_marginTop="32dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/passwordCorrect"
+        android:layout_marginTop="28dp"
+        android:hint="Password"
+        android:layout_below="@+id/emailCorrect"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:id="@+id/buttonLogin"
+        android:layout_below="@+id/passwordCorrect"
+        android:layout_alignLeft="@+id/passwordCorrect"
+        android:layout_alignStart="@+id/passwordCorrect"
+        android:layout_marginTop="25dp"
+        android:onClick="OnLogin"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:id="@+id/buttonRegister"
+        android:layout_alignTop="@+id/buttonLogin"
+        android:layout_alignRight="@+id/passwordCorrect"
+        android:layout_alignEnd="@+id/passwordCorrect"
+        android:onClick="OnRegister"/>
+</RelativeLayout>
